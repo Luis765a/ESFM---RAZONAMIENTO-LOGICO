@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Examen | Razonamiento Lógico</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-app">
+
+  <nav class="navbar navbar-expand-lg nav-glass sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.html">
+        <span class="brand-dot"></span>
+        <span>Razonamiento Lógico</span>
+      </a>
+
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <span class="badge badge-soft" id="temaBadge"><i class="bi bi-book me-1"></i> Tema</span>
+        <span class="badge badge-soft"><i class="bi bi-ui-checks me-1"></i><span id="qCount">0</span></span>
+        <span class="badge badge-soft timer-badge"><i class="bi bi-clock me-1"></i><span id="timer">00:00</span></span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+
+    <!-- LOADING -->
+    <div id="loadingBox" class="glass-card p-4 text-center">
+      <div class="spinner-border" role="status" aria-hidden="true"></div>
+      <div class="mt-3 text-white-50">Cargando examen…</div>
+    </div>
+
+    <!-- EXAM -->
+    <div id="examBox" class="d-none">
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="glass-card p-3 p-md-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div>
+                <div class="text-white-50 small">Pregunta</div>
+                <div class="h5 fw-bold mb-0"><span id="qIndex">1</span> / <span id="qTotal">20</span></div>
+              </div>
+
+              <div class="progress-wrap">
+                <div class="progress" role="progressbar" aria-label="Progreso">
+                  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+                </div>
+                <div class="text-white-50 small mt-1" id="progressText">0% completado</div>
+              </div>
+            </div>
+
+            <hr class="hr-soft my-3">
+
+            <div class="q-stem" id="qStem">...</div>
+
+            <div class="mt-3" id="optionsBox">
+              <!-- opciones -->
+            </div>
+
+            <div class="d-flex gap-2 mt-4 flex-wrap">
+              <button class="btn btn-ghost" id="btnPrev"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
+              <button class="btn btn-main ms-auto" id="btnNext">Siguiente<i class="bi bi-arrow-right ms-1"></i></button>
+              <button class="btn btn-danger-soft" id="btnFinish"><i class="bi bi-flag me-1"></i>Finalizar</button>
+            </div>
+
+            <div class="mt-3 small text-white-50">
+              Tip: puedes volver atrás, pero intenta responder todas antes de finalizar.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="glass-card p-3 p-md-4">
+            <div class="d-flex align-items-center justify-content-between">
+              <h6 class="fw-bold mb-0"><i class="bi bi-grid-3x3-gap me-2"></i>Panel</h6>
+              <button class="btn btn-ghost btn-sm" id="btnClear">
+                <i class="bi bi-eraser me-1"></i>Limpiar
+              </button>
+            </div>
+
+            <hr class="hr-soft my-3">
+
+            <div class="grid-q" id="gridNav"></div>
+
+            <hr class="hr-soft my-3">
+
+            <div class="small text-white-50">
+              🟩 respondida • ⬜ pendiente
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="resultBox" class="d-none">
+      <div class="glass-card p-3 p-md-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div>
+            <div class="text-white-50 small">Resultado</div>
+            <h3 class="fw-800 mb-0" id="scoreTitle">0/20</h3>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-ghost" href="index.html"><i class="bi bi-house me-1"></i>Inicio</a>
+            <button class="btn btn-main" id="btnRetry"><i class="bi bi-arrow-repeat me-1"></i>Reintentar</button>
+          </div>
+        </div>
+
+        <hr class="hr-soft my-3">
+
+        <div class="row g-3">
+          <div class="col-lg-4">
+            <div class="result-card p-3">
+              <div class="text-white-50 small">Aciertos</div>
+              <div class="h2 fw-800 mb-0" id="hitCount">0</div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="result-card p-3">
+              <div class="text-white-50 small">Errores</div>
+              <div class="h2 fw-800 mb-0" id="missCount">0</div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="result-card p-3">
+              <div class="text-white-50 small">Porcentaje</div>
+              <div class="h2 fw-800 mb-0" id="pctScore">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="hr-soft my-3">
+
+        <h6 class="fw-bold mb-2"><i class="bi bi-search me-2"></i>Revisión (con explicación)</h6>
+        <div id="reviewBox" class="review-box"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
